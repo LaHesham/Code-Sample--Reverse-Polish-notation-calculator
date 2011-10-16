@@ -5,6 +5,6 @@
     <Grid>
         <TextBox Height="23" HorizontalAlignment="Left" Margin="83,44,0,0" Name="txtlInput" VerticalAlignment="Top" Width="375" TabIndex="1" Text="Expression" GotFocus="txtlInput_GotFocus" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="83,73,0,0" Name="txtAnswer" TabIndex="2" Text="Answer" VerticalAlignment="Top" Width="375" GotFocus="txtAnswer_GotFocus" />
-        <Button Content="Evaluate" Height="23" HorizontalAlignment="Left" Margin="232,102,0,0" Name="btnEvaluate" VerticalAlignment="Top" Width="75" />
+        <Button Content="Evaluate" Height="23" HorizontalAlignment="Left" Margin="232,102,0,0" Name="btnEvaluate" VerticalAlignment="Top" Width="75" Click="btnEvaluate_Click" />
     </Grid>
 </Window>

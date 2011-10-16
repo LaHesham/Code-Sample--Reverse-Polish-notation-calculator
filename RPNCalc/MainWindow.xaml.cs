@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using RPNCalc.rpn;
 
 namespace RPNCalc
 {
@@ -32,6 +33,13 @@ namespace RPNCalc
         private void txtAnswer_GotFocus(object sender, RoutedEventArgs e)
         {
             if (txtAnswer.Text == "Answer") txtAnswer.Text = "";
+        }
+
+        private void btnEvaluate_Click(object sender, RoutedEventArgs e)
+        {
+            RPN rpn = new RPN(txtlInput.Text);
+            rpn.Parse();
+            txtAnswer.Text = rpn.Test();
         }
     }
 }
