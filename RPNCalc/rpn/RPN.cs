@@ -1,23 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace RPNCalc.rpn
 {
     class RPN
     {
         private String expression;
-        private Stack<Token> tokenStack;
+        private Queue<Token> tokenQueue;
+        private Stack<Token> operatorStack;
+        private Queue<Token> rpnQueue;
+        private Stack<Token> resultStack;
         
 
         public RPN(String expression)
         {
             this.expression = expression;
-            this.tokenStack = new Stack<Token>();
+            this.tokenQueue = new Queue<Token>();
+            this.operatorStack = new Stack<Token>();
+            this.rpnQueue = new Queue<Token>();
+            this.resultStack = new Stack<Token>();
         }
 
         public String Test()
         {
-            return tokenStack.ToString();
+            return tokenQueue.ToString();
         }
 
         public void Parse()
@@ -36,7 +43,7 @@ namespace RPNCalc.rpn
                 {
                     try
                     {
-                        wholeCurrentNum = double.Parse(rawToken);
+                        wholeCurrentNum = double.Parse(rawToken, CultureInfo.InvariantCulture);
                     }
                     catch (Exception ex)
                     {
@@ -44,22 +51,23 @@ namespace RPNCalc.rpn
                         throw ex;
                     }
 
-                    tokenStack.Push(new Token(wholeCurrentNum,TokenType.Number));
+                    tokenQueue.Enqueue(new Token(wholeCurrentNum,TokenType.Number));
                 }
                 else 
                 { 
                     rawToken = GetOperator(currentSymbol, ref i, ref opCall);
-                    if (rawToken == "+") tokenStack.Push(new Token(TokenType.Plus));
-                    else if (rawToken == "-") tokenStack.Push(new Token(TokenType.Minus));
-                    else if (rawToken == "/") tokenStack.Push(new Token(TokenType.Divide));
-                    else if (rawToken == "*") tokenStack.Push(new Token(TokenType.Multiply));
-                    else if (rawToken == "^") tokenStack.Push(new Token(TokenType.Exponent));
-                    else if (rawToken == "sqrt") tokenStack.Push(new Token(TokenType.SquareRoot));
-                    else if (rawToken == "sin") tokenStack.Push(new Token(TokenType.Sine));
-                    else if (rawToken == "cos") tokenStack.Push(new Token(TokenType.Cosine));
-                    else if (rawToken == "tan") tokenStack.Push(new Token(TokenType.Tangent));
-                    else if (rawToken == "lg") tokenStack.Push(new Token(TokenType.NaturalLogarithm));
-                    else if (rawToken == "abs") tokenStack.Push(new Token(TokenType.AbsoluteValue));
+                    if (rawToken == "+") tokenQueue.Enqueue(new Token(TokenType.Plus));
+                    else if (rawToken == "-") tokenQueue.Enqueue(new Token(TokenType.Minus));
+                    else if (rawToken == "–") tokenQueue.Enqueue(new Token(TokenType.Minus));        
+                    else if (rawToken == "/") tokenQueue.Enqueue(new Token(TokenType.Divide));
+                    else if (rawToken == "*") tokenQueue.Enqueue(new Token(TokenType.Multiply));
+                    else if (rawToken == "(") tokenQueue.Enqueue(new Token(TokenType.LeftParenthesis));
+                    else if (rawToken == ")") tokenQueue.Enqueue(new Token(TokenType.RightParenthesis));
+                    else if (rawToken == "exp") tokenQueue.Enqueue(new Token(TokenType.Exponent));
+                    else if (rawToken == "sqrt") tokenQueue.Enqueue(new Token(TokenType.SquareRoot));
+                    else if (rawToken == "lg") tokenQueue.Enqueue(new Token(TokenType.NaturalLogarithm));
+                    else if (rawToken == "abs") tokenQueue.Enqueue(new Token(TokenType.AbsoluteValue));
+                    else if (rawToken == "") ;
                     else throw new Exception();
                 }
 
@@ -71,47 +79,39 @@ namespace RPNCalc.rpn
             string rawToken = "";
             int currentNum;
 
-            if (currentSymbol == "/")
+            if (currentSymbol == "/" || currentSymbol == "*" || currentSymbol == "-" || currentSymbol == "+")
             {
                 return currentSymbol;
             }
-            else if (currentSymbol == "*")
+            else if ((currentSymbol == ")" || currentSymbol == "(") && call == 1)
             {
                 return currentSymbol;
             }
-            else if (currentSymbol == "-")
+            else if ((currentSymbol == ")" || currentSymbol == "(") && call != 1)
             {
-                return currentSymbol;
-            }
-            else if (currentSymbol == "+")
-            {
-                return currentSymbol;
-            }
-            else if (currentSymbol == "^")
-            {
-                return currentSymbol;
+                pos--;
+                return rawToken;
             }
             else if (int.TryParse(currentSymbol, out currentNum))
             {
                 pos--;
                 return rawToken;
             }
-            else if (currentSymbol == ")" || currentSymbol == "(")
-            {
-                pos++;
-                call++;
-                var nextSymbol = expression[pos].ToString();
-                GetOperator(nextSymbol, ref pos,ref call);
-            }
             else
             {
                 rawToken = rawToken + currentSymbol;
-                pos++;
-                call++;
-                var nextSymbol = expression[pos].ToString();
-                GetOperator(nextSymbol, ref pos, ref call);
+                if ((pos + 1) < expression.Length - 1)
+                {
+                    pos++;
+                    call++;
+                    var nextSymbol = expression[pos].ToString();
+                    rawToken = rawToken + GetOperator(nextSymbol, ref pos, ref call);
+                }
+                else
+                {
+                    return rawToken;
+                }
             }
-
             return rawToken;
         }
 
@@ -123,20 +123,38 @@ namespace RPNCalc.rpn
             if (isNum)
             {
                 rawToken = rawToken + currentNum;
-                pos++;
-                call++;
-                var nextSymbol = expression[pos].ToString();
-                GetNumber(nextSymbol, ref pos, ref call);
+                if ((pos+1) < expression.Length-1)
+                {
+                    pos++;
+                    call++;
+                    var nextSymbol = expression[pos].ToString();
+                    rawToken = rawToken + GetNumber(nextSymbol, ref pos, ref call);
+                }
+                else
+                {
+                    return rawToken;
+                }
+                
             }
             else if (num == ".")
             {
-                rawToken = rawToken + currentNum;
-                pos++;
-                call++;
-                var nextSymbol = expression[pos].ToString();
-                GetNumber(nextSymbol, ref pos, ref call);
+                rawToken = rawToken + num;
+                if ((pos+1) < expression.Length-1)
+                {
+                    pos++;
+                    call++;
+                    var nextSymbol = expression[pos].ToString();
+                    rawToken = rawToken + GetNumber(nextSymbol, ref pos, ref call); 
+                }
+                else
+                {
+                    return rawToken;
+                }
             }
-            else if (!isNum && call == 2) return rawToken;
+            else if (!isNum && call == 1)
+            {
+                return rawToken;
+            }
             else
             {
                 pos--;
