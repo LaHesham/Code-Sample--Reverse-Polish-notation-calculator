@@ -26,10 +26,7 @@ namespace RPNCalc
         private void btnEvaluate_Click(object sender, RoutedEventArgs e)
         {
             RPN rpn = new RPN(txtlInput.Text);
-            rpn.Parse();
-            rpn.BuildRPNQUeue();
-            double tmp = rpn.CalculateExpression();
-            txtAnswer.Text = tmp.ToString();
+            txtAnswer.Text = rpn.CalculateExpression().ToString();
         }
     }
 }

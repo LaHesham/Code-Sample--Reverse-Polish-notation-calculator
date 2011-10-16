@@ -4,12 +4,32 @@ using System.Globalization;
 
 namespace RPNCalc.rpn
 {
+    /// <summary>
+    /// Reverse Polish Notation calculation class.
+    /// </summary>
     class RPN
     {
+        /// <summary>
+        /// The string that is read from the input window.
+        /// </summary>
         private String expression;
+        /// <summary>
+        /// Token queue, this queue is in infix notation. It is the expression string tokenized.
+        /// </summary>
         private Queue<Token> tokenQueue;
+        /// <summary>
+        /// The operator stack is used during the building of the RPN Queue (Postfix notation).
+        /// It's temporary storage in between operations.
+        /// </summary>
         private Stack<Token> operatorStack;
+        /// <summary>
+        /// The RPN Queue is the arithmetic expression written in postfix notation and tokenized.
+        /// </summary>
         private Queue<Token> rpnQueue;
+        /// <summary>
+        /// Result Stack is used during the final calculation of the arithmetic expression as a 
+        /// storage place for numeric values.
+        /// </summary>
         private Stack<double> resultStack;
         
 
@@ -22,23 +42,25 @@ namespace RPNCalc.rpn
             this.resultStack = new Stack<double>();
         }
 
-        public String Test()
-        {
-            return tokenQueue.ToString();
-        }
-
+        /// <summary>
+        /// Parses the input string into a <see cref="Token"/> <see cref="Queue"/>
+        /// </summary>
         public void Parse()
         {
             expression = expression.Replace(" ", "");
 
             for (int i = 0; i <= expression.Length-1; i++)
             {
-                int opCall = 1;
-                int numCall = 1;
+                //Recursive call counter for the operations retrieval function.
+                int opCall = 0;
+                //Recursive call counter for the number retrieval function.
+                int numCall = 0; 
                 double wholeCurrentNum;
                 string rawToken = "";
+
                 String currentSymbol = expression[i].ToString();
                 rawToken = GetNumber(currentSymbol,ref i, ref numCall);
+
                 if (rawToken != "")
                 {
                     try
@@ -74,6 +96,13 @@ namespace RPNCalc.rpn
             }
         }
 
+        /// <summary>
+        /// Gets the next operator if there is one.
+        /// </summary>
+        /// <param name="currentSymbol">The latest symbol being parsed.</param>
+        /// <param name="pos">The position in the expression string.</param>
+        /// <param name="call">Number of the recursive function call (0-no recursion).</param>
+        /// <returns>Operator <see cref="string"/>.</returns>
         private string GetOperator(string currentSymbol, ref int pos, ref int call)
         {
             string rawToken = "";
@@ -83,22 +112,24 @@ namespace RPNCalc.rpn
             {
                 return currentSymbol;
             }
-            else if ((currentSymbol == ")" || currentSymbol == "(") && call == 1)
+            else if ((currentSymbol == ")" || currentSymbol == "(") && call == 0)
             {
                 return currentSymbol;
             }
-            else if ((currentSymbol == ")" || currentSymbol == "(") && call != 1)
+            else if ((currentSymbol == ")" || currentSymbol == "(") && call != 0)
             {
                 pos--;
                 return rawToken;
             }
             else if (int.TryParse(currentSymbol, out currentNum))
             {
+                //Step back, these re not the droids you are looking for.
                 pos--;
                 return rawToken;
             }
             else
             {
+                //Perhaps, go deeper if this is not the end.
                 rawToken = rawToken + currentSymbol;
                 if ((pos + 1) < expression.Length - 1)
                 {
@@ -115,13 +146,23 @@ namespace RPNCalc.rpn
             return rawToken;
         }
 
-        private string GetNumber(string num, ref int pos, ref int call)
+        /// <summary>
+        /// Gets the next number if there is one.
+        /// </summary>
+        /// <param name="currentSymbol">The latest symbol being parsed.</param>
+        /// <param name="pos">The position in the expression string.</param>
+        /// <param name="call">Number of the recursive function call (0-no recursion).</param>
+        /// <returns>Number as a <see cref="string"/> or an empty <see cref="string"/> if  it's not a number.</returns>
+        private string GetNumber(string currentSymbol, ref int pos, ref int call)
         {
             int currentNum;
             string rawToken = "";
-            bool isNum = int.TryParse(num, out currentNum);
+
+            bool isNum = int.TryParse(currentSymbol, out currentNum);
+
             if (isNum)
             {
+                //Perhaps, go deeper if this is not the end.
                 rawToken = rawToken + currentNum;
                 if ((pos+1) < expression.Length-1)
                 {
@@ -136,9 +177,10 @@ namespace RPNCalc.rpn
                 }
                 
             }
-            else if (num == ".")
+            else if (currentSymbol == ".")
             {
-                rawToken = rawToken + num;
+                //Perhaps, go deeper if this is not the end.
+                rawToken = rawToken + currentSymbol;
                 if ((pos+1) < expression.Length-1)
                 {
                     pos++;
@@ -151,17 +193,23 @@ namespace RPNCalc.rpn
                     return rawToken;
                 }
             }
-            else if (!isNum && call == 1)
+            else if (!isNum && call == 0)
             {
+                //Not a number.
                 return rawToken;
             }
             else
             {
+                //Step back, these re not the droids you are looking for.
                 pos--;
             }
             return rawToken;
         }
 
+        /// <summary>
+        /// Builds the RPN Queue.
+        /// Implementation of the Shunting-yard algorithm.
+        /// </summary>
         public void BuildRPNQUeue()
         {
             while (tokenQueue.Count !=0 )
@@ -213,8 +261,15 @@ namespace RPNCalc.rpn
                 rpnQueue.Enqueue(operatorStack.Pop());
         }
 
+        /// <summary>
+        /// Calculates the expression .
+        /// </summary>
+        /// <returns>Final result as <see cref="double"/></returns>
         public double CalculateExpression()
         {
+            this.Parse();
+            this.BuildRPNQUeue();
+
             while (rpnQueue.Count != 0)
             {
                 if (!rpnQueue.Peek().IsOperator) resultStack.Push(rpnQueue.Dequeue().PTokenValue);
