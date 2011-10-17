@@ -43,6 +43,7 @@ namespace RPNCalc.rpn
         /// Multiply, Divide - 2
         /// Power, Square Root - 3
         /// Natural Logarithm, Absolute Value - 4
+        /// Unary Minus - 5
         /// </value>
         public int OperationPriority
         {
@@ -126,6 +127,7 @@ namespace RPNCalc.rpn
             else if (tokenType == TokenType.AbsoluteValue) this.operationPriority = 4;
             else if (tokenType == TokenType.LeftParenthesis) this.operationPriority = 0;
             else if (tokenType == TokenType.RightParenthesis) this.operationPriority = 0;
+            else if (tokenType == TokenType.UnaryMinus) this.operationPriority = 5;
         }
 
         /// <summary>
@@ -153,7 +155,7 @@ namespace RPNCalc.rpn
         /// <summary>
         /// Performs the calculation that the current token does.
         /// This method should be used with operation which involve one operand.
-        /// (Square Root, Natural Logarithm, Absolute Value)
+        /// (Square Root, Natural Logarithm, Absolute Value, Unary MInus)
         /// </summary>
         /// <param name="operand">The operand.</param>
         /// <returns>The result of the operation.</returns>
@@ -162,6 +164,7 @@ namespace RPNCalc.rpn
             if (tokenType == TokenType.SquareRoot) return Math.Sqrt(operand);
             else if (tokenType == TokenType.NaturalLogarithm) return Math.Log10(operand);
             else if (tokenType == TokenType.AbsoluteValue) return Math.Abs(operand);
+            else if (tokenType == TokenType.UnaryMinus) return operand*-1;
             else return 0;
         }
     }
