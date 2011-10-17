@@ -148,14 +148,13 @@ namespace RPNCalc.rpn
                 if (operand2 == 0) throw new System.DivideByZeroException("Error: Attempted to divide by zero.");
                 else return operand1 / operand2;
             }
-            else if (tokenType == TokenType.Exponent) return Math.Pow(operand1, operand2);
             else return 0;
         }
 
         /// <summary>
         /// Performs the calculation that the current token does.
         /// This method should be used with operation which involve one operand.
-        /// (Square Root, Natural Logarithm, Absolute Value, Unary MInus)
+        /// (Square Root, Natural Logarithm, Absolute Value, Unary MInus, Exponent)
         /// </summary>
         /// <param name="operand">The operand.</param>
         /// <returns>The result of the operation.</returns>
@@ -165,6 +164,7 @@ namespace RPNCalc.rpn
             else if (tokenType == TokenType.NaturalLogarithm) return Math.Log(operand,Math.E);
             else if (tokenType == TokenType.AbsoluteValue) return Math.Abs(operand);
             else if (tokenType == TokenType.UnaryMinus) return operand*-1;
+            else if (tokenType == TokenType.Exponent) return Math.Exp(operand);
             else return 0;
         }
     }

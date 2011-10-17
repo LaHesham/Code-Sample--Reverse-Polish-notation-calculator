@@ -13,7 +13,7 @@
                         <Run Text="Standart operators: + - / *"/>
                     </TextBlock>
                     <TextBlock TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left">
-                        <Run Text="X to the power of Y: Xexp(Y)"/>
+                        <Run Text="Exponent of X: exp(X)"/>
                     </TextBlock>
                     <TextBlock TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left">
                         <Run Text="Sqare root of X: sqrt(X)"/>

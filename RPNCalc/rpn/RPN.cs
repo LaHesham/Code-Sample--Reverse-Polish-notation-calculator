@@ -316,7 +316,8 @@ namespace RPNCalc.rpn
 			{
 				if (!rpnQueue.Peek().IsOperator) resultStack.Push(rpnQueue.Dequeue().PTokenValue);
 				else if ((rpnQueue.Peek().PTokenType == TokenType.SquareRoot) || (rpnQueue.Peek().PTokenType == TokenType.NaturalLogarithm) ||
-					(rpnQueue.Peek().PTokenType == TokenType.AbsoluteValue || rpnQueue.Peek().PTokenType == TokenType.UnaryMinus))
+					(rpnQueue.Peek().PTokenType == TokenType.AbsoluteValue || rpnQueue.Peek().PTokenType == TokenType.UnaryMinus ||
+					rpnQueue.Peek().PTokenType == TokenType.Exponent))
 				{
 					resultStack.Push(rpnQueue.Dequeue().Calculate(resultStack.Pop()));
 				}
