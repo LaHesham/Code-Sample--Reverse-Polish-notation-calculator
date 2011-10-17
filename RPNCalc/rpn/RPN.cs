@@ -7,7 +7,7 @@ namespace RPNCalc.rpn
     /// <summary>
     /// Reverse Polish Notation calculation class.
     /// </summary>
-    class RPN
+    public class RPN
     {
         /// <summary>
         /// The string that is read from the input window.

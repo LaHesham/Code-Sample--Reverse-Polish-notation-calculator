@@ -27,7 +27,7 @@ namespace RPNCalc.rpn
     /// Main building block in the reverse polish notation.
     /// A token can be an operation or an operand.
     /// </summary>
-    class Token
+    public class Token
     {
         private double tokenValue;
         private TokenType tokenType;
