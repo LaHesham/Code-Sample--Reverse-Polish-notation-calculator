@@ -3,27 +3,6 @@
 namespace RPNCalc.rpn
 {
     /// <summary>
-    /// The different types of tokens which can be found in an arithmetic expression.
-    /// </summary>
-    public enum TokenType
-    {
-        None,
-        Number,
-        Constant,
-        Plus,
-        Minus,
-        Multiply,
-        Divide,
-        Exponent,
-        UnaryMinus,
-        SquareRoot,
-        NaturalLogarithm,
-        AbsoluteValue,
-        LeftParenthesis,
-        RightParenthesis
-    }
-
-    /// <summary>
     /// Main building block in the reverse polish notation.
     /// A token can be an operation or an operand.
     /// </summary>
@@ -116,7 +95,7 @@ namespace RPNCalc.rpn
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Token"/> class.
-        /// This constructor is used when creating a <i>number</i> token.
+        /// This constructor is used when creating a number token.
         /// </summary>
         /// <param name="numberValue">The number value.</param>
         /// <param name="type">The type of the token. Use a  <see cref="TokenType"/> .</param>
@@ -129,7 +108,7 @@ namespace RPNCalc.rpn
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Token"/> class.
-        /// This constructor is used when creating a <i>operator</i> token.
+        /// This constructor is used when creating a operator token.
         /// </summary>
         /// <param name="type">The type of the operator. Use a <see cref="TokenType"/>. </param>
         public Token(TokenType type)
@@ -150,7 +129,7 @@ namespace RPNCalc.rpn
         }
 
         /// <summary>
-        /// Performs the calculation that the <i>current token</i> does.
+        /// Performs the calculation that the current token does.
         /// This method should be used with operation which involve two operands.
         /// (Add, Subtract, Divide, Multiply)
         /// </summary>
@@ -172,7 +151,7 @@ namespace RPNCalc.rpn
         }
 
         /// <summary>
-        /// Performs the calculation that the <i>current token</i> does.
+        /// Performs the calculation that the current token does.
         /// This method should be used with operation which involve one operand.
         /// (Square Root, Natural Logarithm, Absolute Value)
         /// </summary>
