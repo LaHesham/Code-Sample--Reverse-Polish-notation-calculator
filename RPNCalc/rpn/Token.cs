@@ -162,7 +162,11 @@ namespace RPNCalc.rpn
             if (tokenType == TokenType.Plus) return operand1 + operand2;
             else if (tokenType == TokenType.Minus) return operand1 - operand2;
             else if (tokenType == TokenType.Multiply) return operand1 * operand2;
-            else if (tokenType == TokenType.Divide) return operand1 / operand2;
+            else if (tokenType == TokenType.Divide)
+            {
+                if (operand2 == 0) throw new System.DivideByZeroException("Error: Attempted to divide by zero.");
+                else return operand1 / operand2;
+            }
             else if (tokenType == TokenType.Exponent) return Math.Pow(operand1, operand2);
             else return 0;
         }

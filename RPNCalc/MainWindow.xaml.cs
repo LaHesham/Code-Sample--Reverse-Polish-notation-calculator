@@ -26,7 +26,26 @@ namespace RPNCalc
         private void btnEvaluate_Click(object sender, RoutedEventArgs e)
         {
             RPN rpn = new RPN(txtlInput.Text);
-            txtAnswer.Text = rpn.CalculateExpression().ToString();
+            try
+            {
+                txtAnswer.Text = rpn.CalculateExpression().ToString();
+            }
+            catch (System.Exception ex)
+            {
+
+                if (ex is System.InvalidCastException)
+                {
+                    txtAnswer.Text = ex.Message;
+                }
+                if (ex is System.InvalidOperationException)
+                {
+                    txtAnswer.Text = ex.Message;
+                }
+                if (ex is System.DivideByZeroException)
+                {
+                    txtAnswer.Text = ex.Message;
+                }
+            }
         }
     }
 }

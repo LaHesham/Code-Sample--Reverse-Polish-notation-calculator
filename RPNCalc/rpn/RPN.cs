@@ -32,7 +32,6 @@ namespace RPNCalc.rpn
         /// </summary>
         private Stack<double> resultStack;
         
-
         public RPN(String expression)
         {
             this.expression = expression;
@@ -67,9 +66,9 @@ namespace RPNCalc.rpn
                     {
                         wholeCurrentNum = double.Parse(rawToken, CultureInfo.InvariantCulture);
                     }
-                    catch (Exception ex)
+                    catch (System.Exception)
                     {
-
+                        System.InvalidCastException ex = new InvalidCastException("Error: The number <" + rawToken + "> is not a valid number.");
                         throw ex;
                     }
 
@@ -90,7 +89,7 @@ namespace RPNCalc.rpn
                     else if (rawToken == "lg") tokenQueue.Enqueue(new Token(TokenType.NaturalLogarithm));
                     else if (rawToken == "abs") tokenQueue.Enqueue(new Token(TokenType.AbsoluteValue));
                     else if (rawToken == "") ;
-                    else throw new Exception();
+                    else throw new System.InvalidOperationException("Error: Your operation <" + rawToken + "> is not supported.");
                 }
 
             }
