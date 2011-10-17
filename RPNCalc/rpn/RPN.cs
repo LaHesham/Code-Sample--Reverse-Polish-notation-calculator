@@ -87,7 +87,7 @@ namespace RPNCalc.rpn
 					else if (rawToken == ")") tokenQueue.Enqueue(new Token(TokenType.RightParenthesis));
 					else if (rawToken == "exp") tokenQueue.Enqueue(new Token(TokenType.Exponent));
 					else if (rawToken == "sqrt") tokenQueue.Enqueue(new Token(TokenType.SquareRoot));
-					else if (rawToken == "lg") tokenQueue.Enqueue(new Token(TokenType.NaturalLogarithm));
+					else if (rawToken == "ln") tokenQueue.Enqueue(new Token(TokenType.NaturalLogarithm));
 					else if (rawToken == "abs") tokenQueue.Enqueue(new Token(TokenType.AbsoluteValue));
 					else if (rawToken == "") ;
 					else throw new System.InvalidOperationException("Error: Your operation <" + rawToken + "> is not supported.");

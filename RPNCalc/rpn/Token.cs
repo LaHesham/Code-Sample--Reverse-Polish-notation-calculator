@@ -162,7 +162,7 @@ namespace RPNCalc.rpn
         public double Calculate(double operand)
         {
             if (tokenType == TokenType.SquareRoot) return Math.Sqrt(operand);
-            else if (tokenType == TokenType.NaturalLogarithm) return Math.Log10(operand);
+            else if (tokenType == TokenType.NaturalLogarithm) return Math.Log(operand,Math.E);
             else if (tokenType == TokenType.AbsoluteValue) return Math.Abs(operand);
             else if (tokenType == TokenType.UnaryMinus) return operand*-1;
             else return 0;

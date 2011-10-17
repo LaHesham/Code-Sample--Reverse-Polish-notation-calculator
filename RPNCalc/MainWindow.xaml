@@ -3,8 +3,29 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Arithmetic expression calculator" Height="198" Width="571" ResizeMode="NoResize">
     <Grid>
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="83,44,0,0" Name="txtlInput" VerticalAlignment="Top" Width="375" TabIndex="1" Text="Expression" GotFocus="txtlInput_GotFocus" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="83,44,0,0" Name="txtlInput" VerticalAlignment="Top" Width="375" TabIndex="1" Text="Expression" GotFocus="txtlInput_GotFocus" PreviewKeyUp="txtlInput_PreviewKeyUp" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="83,73,0,0" Name="txtAnswer" TabIndex="2" Text="Answer" VerticalAlignment="Top" Width="375" GotFocus="txtAnswer_GotFocus" />
-        <Button Content="Evaluate" Height="23" HorizontalAlignment="Left" Margin="232,102,0,0" Name="btnEvaluate" VerticalAlignment="Top" Width="75" Click="btnEvaluate_Click" />
+        <Button Content="Evaluate" Height="23" HorizontalAlignment="Left" Margin="232,102,0,0" Name="btnEvaluate" VerticalAlignment="Top" Width="75" Click="btnEvaluate_Click"/>
+        <Label Content="?" Height="28" HorizontalAlignment="Left" Margin="464,42,0,0" Name="label1" VerticalAlignment="Top" FontWeight="Bold" Cursor="Hand" >
+            <Label.ToolTip>
+                <StackPanel>
+                    <TextBlock TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <Run Text="Standart operators: + - / *"/>
+                    </TextBlock>
+                    <TextBlock TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <Run Text="X to the power of Y: Xexp(Y)"/>
+                    </TextBlock>
+                    <TextBlock TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <Run Text="Sqare root of X: sqrt(X)"/>
+                    </TextBlock>
+                    <TextBlock TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <Run Text="Natural logarithm of X: ln(X)"/>
+                    </TextBlock>
+                    <TextBlock TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <Run Text="Absolute value of X: abs(X)"/>
+                    </TextBlock>
+                </StackPanel>
+            </Label.ToolTip>
+        </Label>
     </Grid>
 </Window>

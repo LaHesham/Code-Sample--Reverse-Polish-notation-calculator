@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using RPNCalc.rpn;
+using System.Windows.Input;
 
 namespace RPNCalc
 {
@@ -46,6 +47,12 @@ namespace RPNCalc
                     txtAnswer.Text = ex.Message;
                 }
             }
+        }
+
+        private void txtlInput_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                btnEvaluate_Click(this, new RoutedEventArgs());
         }
     }
 }
